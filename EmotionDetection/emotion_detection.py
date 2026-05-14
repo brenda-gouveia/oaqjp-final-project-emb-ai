@@ -18,6 +18,10 @@ def emotion_detection(text_to_analyse):
 
     formatted_response = json.loads(response.text)
 
-    final = formatted_response['emotionPredictions'][0]['emotion']
+    emotion = formatted_response['emotionPredictions'][0]['emotion']
 
-    return final
+    dominant_emotion = max(emotion, key = emotion.get)
+
+    emotion['dominant_emotion'] = dominant_emotion
+
+    return emotion
