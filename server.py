@@ -11,6 +11,9 @@ def sent_emotion():
     # Pass the text to the emotion_detection function and store the response
     response = emotion_detection(text_to_analyze)
 
+    if response["dominant_emotion"] == None:
+        return "Invalid text! Please try again!"
+
     text = "For the given statement, the system response is "
 
     emotions = []

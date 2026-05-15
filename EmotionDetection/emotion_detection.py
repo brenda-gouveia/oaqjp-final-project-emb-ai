@@ -15,13 +15,18 @@ def emotion_detection(text_to_analyse):
     }
 
     response = requests.post(url, json=myobj, headers=headers)
-
     formatted_response = json.loads(response.text)
 
-    emotion = formatted_response['emotionPredictions'][0]['emotion']
+    if response.status_code == 200:
+        
+        emotion = formatted_response['emotionPredictions'][0]['emotion']
+        
+        dominant_emotion = max(emotion, key = emotion.get)
+        
+        emotion['dominant_emotion'] = dominant_emotion
 
-    dominant_emotion = max(emotion, key = emotion.get)
-
-    emotion['dominant_emotion'] = dominant_emotion
-
+    elif response.status_code == 400:
+        emotion = {chave: None for chave in formatted_response}
+        emotion['dominant_emotion'] = None
+        
     return emotion
